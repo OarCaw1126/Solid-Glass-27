@@ -1,0 +1,48 @@
+name: Build DEB Package
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dpkg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y dpkg
+
+      - name: Prepare Package Structure
+        run: |
+          mkdir -p PackageBuild/DEBIAN
+          mkdir -p PackageBuild/var/jb
+          cp -r SolidGlass/Library PackageBuild/var/jb/
+
+      - name: Create Control File
+        run: |
+          cat <<EOC > PackageBuild/DEBIAN/control
+          Package: com.oarcaw1126.solidglass27
+          Name: Solid Glass 27
+          Version: 1.2
+          Architecture: iphoneos-arm64
+          Maintainer: OarCaw1126
+          Depends: com.spark.snowboard
+          Section: Themes
+          Description: Solid Glass 27 custom icon theme compilation for SnowBoard.
+          EOC
+
+      - name: Build DEB
+        run: |
+          dpkg-deb --build PackageBuild solidglass27_1.2_rootless.deb
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: solidglass27-deb
+          path: solidglass27_1.2_rootless.deb
