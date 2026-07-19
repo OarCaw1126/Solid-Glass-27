@@ -1,36 +1,41 @@
-name: Build SwipeDown27 Package
-
+name: Build DEB Package
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
-
+  workflow_dispatch:
 jobs:
-  dpkg-build:
-    runs-on: macos-latest
-
+  build:
+    runs-on: ubuntu-latest
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
-
-    - name: Install dpkg
-      run: |
-        brew install dpkg
-
-    - name: Set Permissions
-      run: |
-        chmod -R 755 control
-        chmod 644 control
-
-    - name: Build Deb Package
-      run: |
-        dpkg-deb -Zxz --root-owner-group -b . com.torxed.swipedown27_1.0.0_iphoneos-arm.deb
-
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: SwipeDown27-Release
-        path: "*.deb"
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install dpkg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y dpkg
+      - name: Prepare Package Structure
+        run: |
+          mkdir -p PackageBuild/DEBIAN
+          mkdir -p PackageBuild/var/jb
+          cp -r SolidGlass/Library PackageBuild/var/jb/
+      - name: Create Control File
+        run: |
+          cat <<EOC > PackageBuild/DEBIAN/control
+          Package: com.oarcaw1126.solidglass27
+          Name: Solid Glass 27
+          Version: 1.2
+          Architecture: iphoneos-arm64
+          Maintainer: OarCaw1126
+          Depends: com.spark.snowboard
+          Section: Themes
+          Description: Solid Glass 27 custom icon theme compilation for SnowBoard.
+          EOC
+      - name: Build DEB
+        run: |
+          dpkg-deb --build PackageBuild solidglass27_1.2_rootless.deb
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: solidglass27-deb
+          path: solidglass27_1.2_rootless.deb
