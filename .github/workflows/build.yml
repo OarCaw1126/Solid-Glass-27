@@ -25,7 +25,7 @@ jobs:
           Package: com.oarcaw1126.solidglass27
           Name: Solid Glass 27
           Version: 1.5
-          Architecture: armv6 armv7 armv7s arm64 arm64e
+          Architecture: iphoneos-armv7 iphoneos-arm64
           Maintainer: OarCaw1126
           Depends: com.spark.snowboard
           Section: Themes
