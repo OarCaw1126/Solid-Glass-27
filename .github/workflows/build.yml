@@ -24,7 +24,7 @@ jobs:
           cat <<EOC > PackageBuild/DEBIAN/control
           Package: com.oarcaw1126.solidglass27
           Name: Solid Glass 27
-          Version: 1.2
+          Version: 1.5
           Architecture: iphoneos-arm64
           Maintainer: OarCaw1126
           Depends: com.spark.snowboard
