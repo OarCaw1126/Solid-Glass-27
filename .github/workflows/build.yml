@@ -25,7 +25,7 @@ jobs:
           Package: com.oarcaw1126.solidglass27
           Name: Solid Glass 27
           Version: 1.5
-          Architecture: iphoneos-arm64
+          Architecture: armv6 armv7 armv7s arm64 arm64e
           Maintainer: OarCaw1126
           Depends: com.spark.snowboard
           Section: Themes
@@ -33,9 +33,9 @@ jobs:
           EOC
       - name: Build DEB
         run: |
-          dpkg-deb --build PackageBuild solidglass27_1.2_rootless.deb
+          dpkg-deb --build PackageBuild solidglass27_1.5_Mixed.deb
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: solidglass27-deb
-          path: solidglass27_1.2_rootless.deb
+          path: solidglass27_1.5_Mixed.deb
