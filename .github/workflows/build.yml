@@ -56,6 +56,25 @@ jobs:
           
           dpkg-deb --build RootfulBuild solidglass27_1.5_Rootful.deb
 
+      - name: Build RootHide
+        run: |
+          mkdir -p RootHideBuild/DEBIAN
+          mkdir -p RootHideBuild/var/jb/Library/Themes
+          cp -r SolidGlass/Library/Themes/* RootHideBuild/var/jb/Library/Themes/
+          
+          cat <<EOC > RootHideBuild/DEBIAN/control
+          Package: com.oarcaw1126.solidglass27.roothide
+          Name: Solid Glass 27 (RootHide)
+          Version: 1.5
+          Architecture: iphoneos-arm64
+          Maintainer: OarCaw1126
+          Depends: com.spark.snowboard
+          Section: Themes
+          Description: Solid Glass 27 custom icon theme compilation for SnowBoard (RootHide version).
+          EOC
+          
+          dpkg-deb --build RootHideBuild solidglass27_1.5_RootHide.deb
+
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -63,3 +82,4 @@ jobs:
           path: |
             solidglass27_1.5_Rootless.deb
             solidglass27_1.5_Rootful.deb
+            solidglass27_1.5_RootHide.deb
