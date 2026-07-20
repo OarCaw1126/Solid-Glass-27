@@ -1,41 +1,65 @@
 name: Build DEB Package
+
 on:
   push:
     branches:
       - main
   workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
       - name: Install dpkg
         run: |
           sudo apt-get update
           sudo apt-get install -y dpkg
-      - name: Prepare Package Structure
+
+      - name: Build Rootless
         run: |
-          mkdir -p PackageBuild/DEBIAN
-          mkdir -p PackageBuild/var/jb
-          cp -r SolidGlass/Library PackageBuild/var/jb/
-      - name: Create Control File
-        run: |
-          cat <<EOC > PackageBuild/DEBIAN/control
+          mkdir -p RootlessBuild/DEBIAN
+          mkdir -p RootlessBuild/var/jb/Library/Themes
+          cp -r SolidGlass/Library/Themes/* RootlessBuild/var/jb/Library/Themes/
+          
+          cat <<EOC > RootlessBuild/DEBIAN/control
           Package: com.oarcaw1126.solidglass27
-          Name: Solid Glass 27
+          Name: Solid Glass 27 (Rootless)
           Version: 1.5
-          Architecture: iphoneos-arm iphoneos-arm64
+          Architecture: iphoneos-arm64
           Maintainer: OarCaw1126
           Depends: com.spark.snowboard
           Section: Themes
           Description: Solid Glass 27 custom icon theme compilation for SnowBoard.
           EOC
-      - name: Build DEB
+          
+          dpkg-deb --build RootlessBuild solidglass27_1.5_Rootless.deb
+
+      - name: Build Rootful
         run: |
-          dpkg-deb --build PackageBuild solidglass27_1.5_Mixed.deb
-      - name: Upload Artifact
+          mkdir -p RootfulBuild/DEBIAN
+          mkdir -p RootfulBuild/Library/Themes
+          cp -r SolidGlass/Library/Themes/* RootfulBuild/Library/Themes/
+          
+          cat <<EOC > RootfulBuild/DEBIAN/control
+          Package: com.oarcaw1126.solidglass27
+          Name: Solid Glass 27 (Rootful)
+          Version: 1.5
+          Architecture: iphoneos-arm
+          Maintainer: OarCaw1126
+          Depends: com.spark.snowboard
+          Section: Themes
+          Description: Solid Glass 27 custom icon theme compilation for SnowBoard.
+          EOC
+          
+          dpkg-deb --build RootfulBuild solidglass27_1.5_Rootful.deb
+
+      - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: solidglass27-deb
-          path: solidglass27_1.5_Mixed.deb
+          name: solidglass27-debs
+          path: |
+            solidglass27_1.5_Rootless.deb
+            solidglass27_1.5_Rootful.deb
