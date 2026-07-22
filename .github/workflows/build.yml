@@ -28,7 +28,7 @@ jobs:
           Package: com.oarcaw1126.solidglass27
           Name: Solid Glass 27 (Rootless)
           Version: 1.5
-          Architecture: iphoneos-arm64
+          Architecture: all
           Maintainer: OarCaw1126
           Depends: com.spark.snowboard
           Section: Themes
@@ -37,7 +37,7 @@ jobs:
           
           dpkg-deb --build RootlessBuild solidglass27_1.5_Rootless.deb
 
-      - name: Build Rootful
+           - name: Build Rootful
         run: |
           mkdir -p RootfulBuild/DEBIAN
           mkdir -p RootfulBuild/Library/Themes
@@ -47,7 +47,7 @@ jobs:
           Package: com.oarcaw1126.solidglass27
           Name: Solid Glass 27 (Rootful)
           Version: 1.5
-          Architecture: iphoneos-arm
+          Architecture: all
           Maintainer: OarCaw1126
           Depends: com.spark.snowboard
           Section: Themes
@@ -66,7 +66,7 @@ jobs:
           Package: com.oarcaw1126.solidglass27.roothide
           Name: Solid Glass 27 (RootHide)
           Version: 1.5
-          Architecture: iphoneos-arm64
+          Architecture: all
           Maintainer: OarCaw1126
           Depends: com.spark.snowboard
           Section: Themes
