@@ -37,7 +37,7 @@ jobs:
           
           dpkg-deb --build RootlessBuild solidglass27_1.5_Rootless.deb
 
-           - name: Build Rootful
+        - name: Build Rootful
         run: |
           mkdir -p RootfulBuild/DEBIAN
           mkdir -p RootfulBuild/Library/Themes
