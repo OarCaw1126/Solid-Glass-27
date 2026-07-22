@@ -47,7 +47,7 @@ jobs:
           Package: com.oarcaw1126.solidglass27
           Name: Solid Glass 27 (Rootful)
           Version: 1.5
-          Architecture: all
+          Architecture: iphoneos-arm
           Maintainer: OarCaw1126
           Depends: com.spark.snowboard
           Section: Themes
